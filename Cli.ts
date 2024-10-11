@@ -1,5 +1,65 @@
+import inquirer from "inquirer";
+import pkg from 'pg';
+import dotenv from 'dotenv';
+const { Pool } = pkg;
+dotenv.config();
+
+//connect to database
+const pool = new Pool({
+    user: process.env.DB_USER,
+    host: process.env.DB_HOST,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+    port: Number(process.env.DB_PORT),
+});
+
+function main() {
+    inquirer
+        .prompt([
+            {
+                type: 'list',
+                name: 'userChoices',
+                message: 'This is a list of all the employees',
+                choices: [
+                    'View All Employees',
+                    'View All Departments',
+                    'View All Roles',
+                    'Add Employee',
+                    'Add Role',
+                    'Update Employee Role',
+                    'Update Role'],
+            },
+        ])
+        .then(res => {
+            switch (res.userChoices) {
+                case 'View All Employees':
+                    viewAllEmployees();
+                    break;
+                case 'View All Departments':
+                    viewAllDepartments();
+                    break;
+                    case 'Add Department':
+                        addDepartment();
+                        break;
+                case 'Add Employee':
+                    addEmployee();
+                    break;
+                case 'Add Role':
+                    addRole();
+                    break;
+                case 'Update Employee Role':
+                    updateRole();
+                    break;
+                case 'View All Role':
+                    viewAllRole();
+                    break;
+            }
+        })
+}
+
+
 // method to start the cli
-viewAllEmployees() {
+function viewAllEmployees() {
     inquirer
         .prompt([
             {
@@ -10,8 +70,18 @@ viewAllEmployees() {
             },
         ])
 }
+function addDepartment() {
+    inquirer
+        .prompt([
+            {
+                type: 'input',
+                name: 'name',
+                message: 'What is the department name? ',
+            },
+        ])
+}
 
-viewAllDepartments() {
+function viewAllDepartments() {
     inquirer
         .prompt([
             {
@@ -23,8 +93,7 @@ viewAllDepartments() {
         ])
 }
 
-
-viewAllRoles() {
+function viewAllRole() {
     inquirer
         .prompt([
             {
@@ -36,7 +105,24 @@ viewAllRoles() {
         ])
 }
 
-addEmployee() {
+function updateRole() {
+    inquirer
+        .prompt([
+            {
+                type: 'input',
+                name: 'name',
+                message: 'What is the employees name? ',
+            },
+
+            {
+                type: 'input',
+                name: 'name',
+                message: 'What do you want to update this employees role to?',
+            },
+        ])
+}
+
+function addEmployee() {
     inquirer
         .prompt([
             {
@@ -64,7 +150,7 @@ addEmployee() {
             this.performActions();
         });
 }
-addRole() {
+function addRole() {
     inquirer
         .prompt([
             {
@@ -86,14 +172,13 @@ addRole() {
         ])
         .then((answers) => {
             const role = new role(
-                Cli.generateID(), answers.name, answers.role, answers.manager, []);
-            // push the car to the employees array
-            this.employees.push(employee);
+                // push the car to the employees array
+                this.employees.push(employee);
             // perform actions on the employees
             this.performActions();
         });
 }
-startCli() {
+function startCli() {
     inquirer
         .prompt([
             {
@@ -119,7 +204,7 @@ startCli() {
                 this.addEmployee();
             }
             else if (answers.CreateOrSelect === 'Update Employee Role') {
-                this.updateEmployeeRole();
+                this.updateRole();
             }
             else if (answers.CreateOrSelect === 'Add Role') {
                 this.addRole();
