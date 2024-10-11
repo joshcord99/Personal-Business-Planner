@@ -1,24 +1,28 @@
-DEPARTMENT
+DROP DATABASE IF EXISTS company_db;
+CREATE DATABASE company_db;
 
-ID: SERIAL PRIMARY KEY
+\c company_db;
 
-NAME: VARCHAR(30) UNIQUE NOT NULL to hold department name
-role
+CREATE TABLE department (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+);
 
-ID: SERIAL PRIMARY KEY
+CREATE TABLE role (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR (30),
+    salary DECIMAL,
+    department_id INTEGER,
+    FOREIGN KEY department_id
+    REFERENCES department(id)
+);
 
-TITLE: VARCHAR(30) UNIQUE NOT NULL to hold role title
-
-SALARY: DECIMAL NOT NULL to hold role salary
-
-DEPARATMENT_ID: INTEGER NOT NULL to hold reference to department role belongs to employee
-
-ID: SERIAL PRIMARY KEY
-
-FIRST_NAME: VARCHAR(30) NOT NULL to hold employee first name
-
-LAST_NAME: VARCHAR(30) NOT NULL to hold employee last name
-
-ROLER_ID: INTEGER NOT NULL to hold reference to employee role
-
-MANAGER_ID: INTEGER  to hold reference to another employee that is the manager of the current employee (null if the employee has no manager)
+CREATE TABLE employee (
+id: SERIAL PRIMARY KEY,
+first_name VARCHAR(30) NOT NULL,
+last_name VARCHAR(30) NOT NULL,
+role_id INTEGER NOT NULL,
+manager_id INTEGER,
+    FOREIGN KEY role_id
+    REFERENCES role (id)
+);

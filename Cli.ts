@@ -1,10 +1,3 @@
-static generateID() {
-    // return a random string
-    return (Math.random().toString(36).substring(2, 15) +
-        Math.random().toString(36).substring(2, 15));
-}
-
-
 // method to start the cli
 viewAllEmployees() {
     inquirer
@@ -129,9 +122,9 @@ startCli() {
                 this.updateEmployeeRole();
             }
             else if (answers.CreateOrSelect === 'Add Role') {
-                this.createVehicle();
+                this.addRole();
             } else if (answers.CreateOrSelect === 'Add Department') {
-                this.createVehicle();
+                this.addDepartment();
             }
         });
 }
