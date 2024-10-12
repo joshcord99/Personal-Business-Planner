@@ -44,6 +44,7 @@ function mainMenu() {
                     break;
                 case 'View All Departments':
                     viewAllDepartments();
+                    break;
                 case 'Add Department':
                     addDepartment();
                     break;
