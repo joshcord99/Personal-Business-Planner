@@ -1,5 +1,5 @@
 # Personal Business Planner
-
+![](https://github.com/joshcord99/Personal-Business-Planner/blob/main/assets/Screenshot%202024-10-31%20at%206.33.34%E2%80%AFPM.png) 
 ## Description
 This command-line application helps you keep track of your company's organizational structure. It allows you to manage departments, job roles, and employees in a database and is ideal for quickly viewing information and making updates as your company grows.
 
