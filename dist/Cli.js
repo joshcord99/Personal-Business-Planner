@@ -13,7 +13,7 @@ const pool = new Pool({
 });
 pool.connect((err) => {
     if (err) {
-        console.error('Database connection error:', err.stack);
+        console.error('Database connection error:');
     }
     else {
         console.log('Database connected');
@@ -71,7 +71,7 @@ const viewAllDepartments = () => {
     const query = "SELECT * FROM department;";
     pool.query(query, (err, result) => {
         if (err) {
-            console.error('Uh Oh! Error fetching departments', err.stack);
+            console.error('Uh Oh! Error fetching departments');
         }
         else {
             console.table(result.rows);
@@ -80,7 +80,6 @@ const viewAllDepartments = () => {
     });
 };
 const viewAllRole = () => {
-    console.log('it works');
     const query = `
         SELECT department.name AS department_name, 
                role.salary AS role_salary, 
@@ -90,7 +89,7 @@ const viewAllRole = () => {
         ON role.department_id = department.id;`;
     pool.query(query, (err, result) => {
         if (err) {
-            console.error('Uh Oh! Error fetching roles', err.stack);
+            console.error('Uh Oh! Error fetching roles');
         }
         else {
             console.table(result.rows);
@@ -102,7 +101,7 @@ const viewAllEmployees = () => {
     const query = "SELECT employee.first_name, employee.last_name, role.title, CONCAT(manager.first_name, ' ', manager.last_name) AS manager FROM employee JOIN role ON employee.role_id = role.id LEFT JOIN employee AS manager ON employee.manager_id = manager.id;";
     pool.query(query, (err, result) => {
         if (err) {
-            console.error('Uh Oh! Error fetching employees', err.stack);
+            console.error('Uh Oh! Error fetching employees');
         }
         else {
             console.table(result.rows);
@@ -121,7 +120,7 @@ const addDepartment = () => {
         const query = 'INSERT INTO department (name) VALUES ($1);';
         pool.query(query, [answer.name], (err) => {
             if (err) {
-                console.error('Uh Oh! Error adding department', err.stack);
+                console.error('Uh Oh! Error adding department');
             }
             else {
                 console.log('Great! Department added successfully');
@@ -151,7 +150,7 @@ const addRole = () => {
         const query = 'INSERT INTO role (title, salary, department_id) VALUES ($1, $2, $3);';
         pool.query(query, [answer.title, answer.salary, answer.department_id], (err) => {
             if (err) {
-                console.error('Uh Oh! Error adding role', err.stack);
+                console.error('Uh Oh! Error adding role');
             }
             else {
                 console.log('Great! Role added successfully');
@@ -186,7 +185,7 @@ const addEmployee = () => {
         const query = 'INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ($1, $2, $3, $4);';
         pool.query(query, [answer.first_name, answer.last_name, answer.role_id, answer.manager_id], (err) => {
             if (err) {
-                console.error('Uh Oh! Error adding new employee', err.stack);
+                console.error('Uh Oh! Error adding new employee');
             }
             else {
                 console.log('Great! New employee added successfully!');
@@ -200,18 +199,18 @@ const updateRole = () => {
         {
             type: 'input',
             name: 'employee_id',
-            message: 'Enter the employee ID:',
+            message: 'Please enter the employee ID:',
         },
         {
             type: 'input',
             name: 'role_id',
-            message: 'Enter the new role ID:',
+            message: 'Please enter the new role ID:',
         }
     ]).then(answer => {
         const query = 'UPDATE employee SET role_id = $1 WHERE id = $2;';
         pool.query(query, [answer.role_id, answer.employee_id], (err) => {
             if (err) {
-                console.error('Uh Oh! Error updating employee\'s role', err.stack);
+                console.error('Uh Oh! Error updating employee\'s role');
             }
             else {
                 console.log('Great! Employee role updated successfully!');

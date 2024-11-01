@@ -96,8 +96,9 @@ const viewAllRole = () => {
     });
 };
 
+
 const viewAllEmployees = () => {
-    const query = "SELECT employee.first_name, employee.last_name, role.title, CONCAT(manager.first_name, manager.last_name) AS manager FROM employee JOIN role ON employee.role_id = role.id LEFT JOIN employee AS manager ON employee.manager_id = manager.id;";
+    const query = "SELECT employee.first_name, employee.last_name, role.title, CONCAT(manager.first_name, ' ', manager.last_name) AS manager FROM employee JOIN role ON employee.role_id = role.id LEFT JOIN employee AS manager ON employee.manager_id = manager.id;";
     pool.query(query, (err, result) => {
         if (err) {
             console.error('Uh Oh! Error fetching employees');
@@ -149,11 +150,13 @@ const addRole = () => {
         pool.query(query, [answer.title, answer.salary, answer.department_id], (err) => {
             if (err) {
                 console.error('Uh Oh! Error adding role');
-
+            } else {
+                console.log('Great! Role added successfully');
+            }
+            mainMenu();
         });
     });
 };
-
 
 const addEmployee = () => {
     inquirer.prompt([
@@ -178,10 +181,12 @@ const addEmployee = () => {
             message: "What is the new employee's boss's ID number?:",
         }
     ]).then(answer => {
-        const query = 'INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ($1, $, $3, $4);';
+        const query = 'INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ($1, $2, $3, $4);';
         pool.query(query, [answer.first_name, answer.last_name, answer.role_id, answer.manager_id], (err) => {
             if (err) {
                 console.error('Uh Oh! Error adding new employee');
+            } else {
+                console.log('Great! New employee added successfully!');
             }
             mainMenu();
         });
@@ -192,20 +197,22 @@ const updateRole = () => {
         {
             type: 'input',
             name: 'employee_id',
-            message: 'Please enter the employee:',
+            message: 'Please enter the employee ID:',
         },
         {
             type: 'input',
             name: 'role_id',
-            message: 'Please enter the new role :',
+            message: 'Please enter the new role ID:',
         }
     ]).then(answer => {
         const query = 'UPDATE employee SET role_id = $1 WHERE id = $2;';
         pool.query(query, [answer.role_id, answer.employee_id], (err) => {
             if (err) {
                 console.error('Uh Oh! Error updating employee\'s role');
+            } else {
+                console.log('Great! Employee role updated successfully!');
             }
-
+            mainMenu();
         });
     });
 };
