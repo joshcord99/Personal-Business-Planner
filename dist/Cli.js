@@ -29,6 +29,7 @@ function mainMenu() {
             choices: [
                 'View All Employees',
                 'View All Departments',
+                'Add Department',
                 'View All Role',
                 'Add Employee',
                 'Add Role',
@@ -185,6 +186,7 @@ const addEmployee = () => {
         const query = 'INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ($1, $2, $3, $4);';
         pool.query(query, [answer.first_name, answer.last_name, answer.role_id, answer.manager_id], (err) => {
             if (err) {
+                console.log(err);
                 console.error('Uh Oh! Error adding new employee');
             }
             else {
