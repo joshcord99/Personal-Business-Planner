@@ -34,7 +34,6 @@ function mainMenu() {
                 'Add Employee',
                 'Add Role',
                 'Update Employee Role',
-                'Update Role',
                 'Exit'
             ],
         },
